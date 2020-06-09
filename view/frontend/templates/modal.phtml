@@ -1,0 +1,67 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$product = $objectManager->get('Magento\Framework\Registry')->registry('current_product'); //get current product
+if (!$product) {
+	return;
+}
+?>
+
+<script type="text/javascript">
+
+	document.addEventListener('DOMContentLoaded', function() { // Аналог $(document).ready(function(){
+	
+		$('.buy-one-click').submit(function(e) {
+        e.preventDefault();
+  
+        $('#key').val('<?php echo $block->getFormKey() ?>');     
+        $('input[name=product_sku]').val($('.product-full__articul .value').html());
+        
+        $.post('/buyoneclick', $(this).serialize(), function() {
+          
+          $('#modal-1click').modal('hide');
+          $('#modal-1click-success').modal('show');
+        });
+			
+			return;
+		});
+
+	});
+</script>
+
+<div class="modal fade" id="modal-1click" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <form action="#" method="POST" class="modal-body small buy-one-click" novalidate>
+
+				<input id="key" name="form_key" type="hidden" />
+				<input type="hidden" name="product_sku" value="<?php echo $product->getSku(); ?>" />		
+
+        <button type="button" class="close icon-close-i" data-dismiss="modal" aria-label="Close"></button>
+
+        <div class="modal-body__1-click">
+          <div class="form-group">
+            <div class="one-click__prod-title"><?php echo __('Your phone number');?></div>
+          </div>
+
+          <div class="form-group validation-required">
+            <input type="tel" class="form-control" id="order1click[phone]" name="phone" placeholder="<?php echo __('Phone');?>:" required />
+          </div>
+
+          <div class="form-group validation-required">
+            <input type="text" class="form-control" id="order1click[lastname]" name="email" placeholder="E-mail:" required />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block"><?php echo __('Send');?></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-1click-success" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <?php echo __('Thank you for your order! We will contact you soon.');?>
+    </div>
+  </div>
+</div>

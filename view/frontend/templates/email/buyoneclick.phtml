@@ -1,0 +1,32 @@
+<?php
+$product = $this->getData('product');
+
+if (!$product) {
+    return;
+}
+
+?>
+<table class="message-details">
+    <tr>
+        <td><strong><?php echo __("Product") ?></strong></td>
+        <td><?php echo $product->getName(); ?></td>
+    </tr>
+    <tr>
+        <td><strong><?php echo __("Sku") ?></strong></td>
+        <td><?php echo $product->getSku(); ?></td>
+    </tr>
+    <tr>
+        <td><strong><?php echo __("Link") ?></strong></td>
+        <td><?php echo $product->getProductUrl(); ?></td>
+    </tr>
+  
+    <tr>
+        <td><strong><?php echo __("Phone") ?></strong></td>
+        <td><?php echo $this->getData('phone'); ?></td>
+    </tr>
+
+    <tr>
+        <td><strong><?php echo __("Application Date") ?></strong></td>
+        <td><?php echo date('d.m.Y H:m:s'); ?></td>
+    </tr>
+</table>
